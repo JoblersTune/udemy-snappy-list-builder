@@ -11,6 +11,94 @@ License: GPL2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 */
 
+
+/** I used the Custom Post Type UI plugin to create custom list and subscriber post types. I have simply inserted the code generated in that plugin here to make it easy to use the My Udemy Snappy List Builder plugin. But just a note that this is not my code.*/
+
+
+function cptui_register_my_cpts_slb_subscriber() {
+
+	/**
+	 * Post Type: Subscribers.
+	 */
+
+	$labels = [
+		"name" => __( "Subscribers", "twentytwentyone" ),
+		"singular_name" => __( "Subscriber", "twentytwentyone" ),
+	];
+
+	$args = [
+		"label" => __( "Subscribers", "twentytwentyone" ),
+		"labels" => $labels,
+		"description" => "",
+		"public" => false,
+		"publicly_queryable" => false,
+		"show_ui" => true,
+		"show_in_rest" => true,
+		"rest_base" => "",
+		"rest_controller_class" => "WP_REST_Posts_Controller",
+		"has_archive" => false,
+		"show_in_menu" => true,
+		"show_in_nav_menus" => false,
+		"delete_with_user" => false,
+		"exclude_from_search" => true,
+		"capability_type" => "post",
+		"map_meta_cap" => true,
+		"hierarchical" => false,
+		"rewrite" => [ "slug" => "slb_subscriber", "with_front" => false ],
+		"query_var" => true,
+		"supports" => false,
+	];
+
+	register_post_type( "slb_subscriber", $args );
+}
+
+add_action( 'init', 'cptui_register_my_cpts_slb_subscriber' );
+
+
+function cptui_register_my_cpts_slb_list() {
+
+	/**
+	 * Post Type: Lists.
+	 */
+
+	$labels = [
+		"name" => __( "Lists", "twentytwentyone" ),
+		"singular_name" => __( "List", "twentytwentyone" ),
+	];
+
+	$args = [
+		"label" => __( "Lists", "twentytwentyone" ),
+		"labels" => $labels,
+		"description" => "",
+		"public" => false,
+		"publicly_queryable" => true,
+		"show_ui" => true,
+		"show_in_rest" => true,
+		"rest_base" => "",
+		"rest_controller_class" => "WP_REST_Posts_Controller",
+		"has_archive" => false,
+		"show_in_menu" => true,
+		"show_in_nav_menus" => true,
+		"delete_with_user" => false,
+		"exclude_from_search" => false,
+		"capability_type" => "post",
+		"map_meta_cap" => true,
+		"hierarchical" => false,
+		"rewrite" => [ "slug" => "slb_list", "with_front" => false ],
+		"query_var" => true,
+		"supports" => [ "title" ],
+	];
+
+	register_post_type( "slb_list", $args );
+}
+
+add_action( 'init', 'cptui_register_my_cpts_slb_list' );
+
+/**End of copied code from  Custom Post Type UI plugin*/
+
+
+
+
 // Hooks 
 // Filter hooks allow us to get data from WordPress, modify it, and return it back customized
 // Whereas action hooks let us run our own code when a certain event takes place in the WordPress lifecycle
