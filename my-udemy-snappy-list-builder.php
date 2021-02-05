@@ -97,6 +97,81 @@ add_action( 'init', 'cptui_register_my_cpts_slb_list' );
 /**End of copied code from  Custom Post Type UI plugin*/
 
 
+/**
+ * WordPress complete course add menu and submenu
+ */
+
+add_action( 'admin_menu', 'my_plugin_menu' );
+add_action( 'admin_menu', 'add_submenu' );
+
+function my_plugin_menu(){
+
+	add_menu_page( 'Udemy SLB', 'Udemy SLB', 'manage_options', 'udemy-slb-menu', 'setup_plugin_menu' );
+
+}
+
+function setup_plugin_menu(){
+
+	echo "This is a menu page for SLB";
+
+}
+
+function add_submenu(){
+
+	add_submenu_page( 'udemy-slb-menu', 'SLB sub menu', 'Submenu', 'manage_options', 'submenu_item', 'setup_plugin_submenu' );
+
+}
+
+function setup_plugin_submenu(){
+
+	echo "I made a submenu";
+	
+}
+
+
+
+// Creates a "Settings" link that appears next to the "Deactivate" link on the plugins page itself.
+
+$filter_name = 'plugin_action_links_' . plugin_basename( __FILE__ );
+add_filter('$filter_name', 'add_slb_link');
+// ?? Why isn't this working to create a "settings" link next to "Deactivate" on plugin page. 
+function add_slb_link(array $links) : array{
+
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return $links;
+	}
+	
+	$action_links = ["setting"=>'<a href="admin.php?page=udemy-slb-menu">Settings</a>'];
+	//array_push($links, '<a href="admin.php?page=udemy-slb-menu">Settings</a>');
+
+	return array_merge($action_links, $links);
+
+}
+ 
+ /**
+  * 
+  * End of menu additions
+  */
+  
+  /**
+   * Loading JS scripts for front end and for admin pages
+   * 
+   */
+
+	require_once __DIR__ . '/load_admin_assets.js';
+
+  function load_js_stuff(){
+	  wp_enqueue_script( 
+		  'slb_admin_script', 
+		  esc_url_raw( plugin_dir_url( __DIR__ ) . 'udemy-snappy-list-builder/load_admin_assets.js' ), // NOTE must be a URL
+		  ['jquery'], 
+		  time()
+		);
+  }
+  add_action( 'admin_enqueue_scripts', 'load_js_stuff' );// This shows on all admin and fron-end pages
+  //  add_action( 'wp_enqueue_scripts', 'load_js_stuff' ); would only show this on the front end (i.e. user view)
+
+  /**End of loading scripts practice */
 
 
 // Hooks 
